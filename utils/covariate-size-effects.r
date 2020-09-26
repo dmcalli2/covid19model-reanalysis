@@ -7,7 +7,8 @@ library(cowplot)
 
 plot_covars <- function(filename){ 
   
-  load(paste0("nature/results/", filename,'-stanfit.Rdata'))
+  print(sprintf("loading: %s", paste0("results/", filename, '-stanfit.Rdata')))
+  load(paste0("results/", filename,'-stanfit.Rdata'))
   out <- rstan::extract(fit)
   alpha = data.frame(as.matrix(out$alpha))
   plot_labels <- c("School Closure",
@@ -71,6 +72,6 @@ plot_covars <- function(filename){
     theme(plot.margin = margin(0, 2, 0, .5, "cm"))
   #+ guides(fill=guide_legend(nrow=2))
   p    
-  ggsave(filename = paste0("nature/figures/covars-alpha-reduction", filename,".png"),
+  ggsave(filename=paste0("figures/", filename, "-covars-alpha-reduction.png"),
          p,height=4,width=8)
 }

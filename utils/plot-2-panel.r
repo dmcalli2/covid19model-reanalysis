@@ -10,8 +10,8 @@ library(ggplot2)
 source("utils/geom-stepribbon.r")
 
 #---------------------------------------------------------------------------
-make_three_panel_plot <- function(filename){
-  
+make_two_panel_plot <- function(filename) {
+
   print(sprintf("loading: %s", paste0("results/", filename, '-stanfit.Rdata')))
   load(paste0("results/", filename, "-stanfit.Rdata"))
   out <- rstan::extract(fit)
@@ -91,17 +91,17 @@ make_three_panel_plot <- function(filename){
                                "rt_min2" = rt_li2,
                                "rt_max2" = rt_ui2)
     
-    make_plots(data_country = data_country, 
-               covariates_country_long = covariates_country_long,
-               filename = filename,
-               country = country)
+    make_2_plots(data_country = data_country,
+                 covariates_country_long = covariates_country_long,
+                 filename = filename,
+                 country = country)
     
   }
 }
 
 #---------------------------------------------------------------------------
-make_plots <- function(data_country, covariates_country_long, 
-                       filename, country){
+make_2_plots <- function(data_country, covariates_country_long,
+                         filename, country){
   
   data_cases_95 <- data.frame(data_country$time, data_country$predicted_min, 
                               data_country$predicted_max)
@@ -126,9 +126,9 @@ make_plots <- function(data_country, covariates_country_long,
     scale_fill_manual(name = "", labels = c("50%", "95%"),
                       values = c(alpha("deepskyblue4", 0.55), 
                                  alpha("deepskyblue4", 0.45))) + 
-    theme_pubr(base_family="sans") + 
+    theme_pubr(base_size=14, base_family="sans") +
     theme(axis.text.x = element_text(angle = 45, hjust = 1), 
-          legend.position = "None") + ggtitle(country) +
+          legend.position = "None") + # ggtitle(country) +
     guides(fill=guide_legend(ncol=1))
   
   data_deaths_95 <- data.frame(data_country$time, data_country$death_min, 
@@ -204,10 +204,10 @@ make_plots <- function(data_country, covariates_country_long,
                  limits = c(data_country$time[1], 
                             data_country$time[length(data_country$time)])) +
     scale_y_continuous(expand = c(0,0.1)) + 
-    theme_pubr(base_family="sans") + 
+    theme_pubr(base_size=14, base_family="sans") +
     theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-    theme(legend.position="right")
-  p <- plot_grid(p1, p2, p3, ncol = 3, rel_widths = c(1, 1, 2))
-  save_plot(filename = paste0("figures/", filename, "-three-panel-", country, ".png"),
-            p, base_width = 14)
+    theme(legend.position=c(0.7, 0.7))
+  p <- plot_grid(p1, p3, ncol = 2, rel_widths = c(1.5, 2))
+  save_plot(filename = paste0("figures/", filename, "-two-panel-", country, ".png"),
+            p, base_width = 14, base_height=6)
 }

@@ -1,0 +1,22 @@
+# History files
+.Rhistory
+.Rapp.history
+
+# Session Data files
+.RData
+
+# RStudio files
+.Rproj.user/
+
+# R Environment Variables
+.Renviron
+
+## no stan rds files being dumped
+stan-models/*.rds
+results/*.Rdata
+results/*.csv
+results/*.pdf
+results/*.png
+figures/*.png
+figures/*.pdf
+Rplots.pdf

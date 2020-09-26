@@ -1,16 +1,7 @@
-library(rstan)
-library(data.table)
-library(lubridate)
-library(gdata)
-library(dplyr)
-library(tidyr)
 library(EnvStats)
-library(scales)
-library(stringr)
-library(abind)
 
 process_covariates <- function(countries, interventions, d, ifr.by.country,N2){
-  serial.interval = readRDS("nature/data/serial-interval.rds")
+  serial.interval = readRDS("data/serial-interval.rds")
   # Pads serial interval with 0 if N2 is greater than the length of the serial
   # interval array
   if (N2 > length(serial.interval$fit)) {
